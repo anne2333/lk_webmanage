@@ -41,5 +41,5 @@ function renderAvatar(user) {
 
 //点击事件
 function articleListClick() {
-  $('#dl_article').click()
+  $('#dl_article_list').click()
 }

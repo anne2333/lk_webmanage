@@ -69,7 +69,7 @@ $(function () {
         if (res.status !== 0) return layui.layer.msg(res.message)
         layui.layer.msg('发布文章成功')
         location.href = '/article/art_list.html'
-        // window.parent.articleListClick()
+        window.parent.articleListClick()
       }
 
     })

@@ -1,11 +1,10 @@
 $(function () {
 
-  initCate()
   //定义请求参数
   var q = {
     pagenum: 1,
     pagesize: 2,
-    cate_id: '',
+    cate_name: '',
     state: '',
   }
   initTable()
@@ -42,27 +41,15 @@ $(function () {
   function padZero(n) {
     return n > 9 ? n : '0' + n
   }
-  //加载文章分类
-  function initCate() {
-    $.ajax({
-      method: 'GET',
-      url: '/my/article/cates',
-      success: function (res) {
-        if (res.status !== 0) return layui.layer.msg('初始化文章分类失败')
-        var htmlStr = template('tpl-cate', res)
-        $('[name=cate_id]').empty().html(htmlStr)
-        layui.form.render()
-      }
-    })
-  }
 
   //筛序功能
   $('#form-search').on('submit', function (e) {
     e.preventDefault()
-    var cate_id = $('[name=cate_id]').val()
+    var cate_name = $('[name=cate_name]').val()
     var state = $('[name=state]').val()
-    q.cate_id = cate_id
+    q.cate_name = cate_name
     q.state = state
+    console.log(q);
     initTable()
   })
 

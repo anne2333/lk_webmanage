@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge;img-src * 'https://*'">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>发布文章</title>
   <link rel="stylesheet" href="../assets/lib/layui/css/layui.css">
@@ -26,7 +26,7 @@
         <div class="layui-form-item">
           <label class="layui-form-label">文章类别</label>
           <div class="layui-input-block">
-            <select name="cate_id" lay-verify="required">
+            <select name="cate_name" lay-verify="required">
               <option value="">请选择文章类别</option>
               <option value="行业动态">行业动态</option>
               <option value="新闻资讯">新闻资讯</option>
@@ -40,7 +40,7 @@
           <!-- 为富文本编辑器外部的容器设置高度 -->
           <div class="layui-input-block">
             <!-- 重要：将来这个 textarea 会被初始化为富文本编辑器 -->
-            <textarea id="content"></textarea>
+            <textarea name='content' id="content"></textarea>
           </div>
         </div>
         <div class="layui-form-item">
@@ -91,6 +91,7 @@
         contentType: false,
         processData: false,
         success: function (res) {
+          console.log(res);
           console.log(res.message);
           if (res.status !== 0) reject(res.err)
           layui.layer.msg('上传图片成功')

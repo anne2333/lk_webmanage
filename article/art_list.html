@@ -17,8 +17,11 @@
       <!-- 筛选区域 -->
       <form class="layui-form" id="form-search">
         <div class="layui-form-item layui-inline">
-          <select name="cate_id">
-
+          <select name="cate_name">
+            <option value="">所有分类</option>
+            <option value="行业动态">行业动态</option>
+            <option value="新闻资讯">新闻资讯</option>
+            <option value="法律法规">法律法规</option>
           </select>
         </div>
         <div class="layui-form-item layui-inline">
@@ -70,18 +73,10 @@
       <td>{{$value.state}}</td>
       <td>
         <button type="button" class="layui-btn layui-btn layui-btn-xs">编辑</button>
-        <button type="button" data-id="{{$value.Id}}" class="layui-btn layui-btn layui-btn-xs layui-btn-danger btn-delete">删除</button>
+        <button type="button" data-id="{{$value.id}}" class="layui-btn layui-btn layui-btn-xs layui-btn-danger btn-delete">删除</button>
       </td>
     </tr>
     {{/each}}
-  </script>
-
-  <!-- 分类下拉框分类模板 -->
-  <script type="text/html" id="tpl-cate">
-      <option value="">所有分类</option>
-        {{each data}}
-          <option value="{{$value.Id}}">{{$value.name}}</option>
-        {{/each}}
   </script>
 
   <script src="../assets/lib/jquery.js"></script>
