@@ -49,7 +49,6 @@ $(function () {
     var state = $('[name=state]').val()
     q.cate_name = cate_name
     q.state = state
-    console.log(q);
     initTable()
   })
 
@@ -101,5 +100,12 @@ $(function () {
         })
         layer.close(index);
       });
+  })
+
+  //编辑文章
+  $('body').on('click', '.btn-edit', function () {
+    var id = $(this).attr('data-id')
+    window.parent.articleAddClick()
+    location.href = '/article/art_pub.html?id=' + id
   })
 })

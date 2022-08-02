@@ -1,12 +1,19 @@
 $(function () {
 
+  var q = location.search.substring(1)
+
+  if (q && q != '') {
+    q = q.split('=')[1]
+    editArticle(q)
+  }
+
   //图片裁剪初始化
   // 1. 初始化图片裁剪器
   var $image = $('#image')
 
   // 2. 裁剪选项
   var options = {
-    aspectRatio: 260 / 340,
+    aspectRatio: 520 / 680,
     preview: '.img-preview'
   }
 
@@ -46,14 +53,20 @@ $(function () {
     //封面
     $image
       .cropper('getCroppedCanvas', { // 创建一个 Canvas 画布
-        width: 400,
-        height: 280
+        width: 520,
+        height: 680
       })
       .toBlob(function (blob) {
         // 将 Canvas 画布上的内容，转化为文件对象
         // 得到文件对象后，进行后续的操作
         fd.append('cover_img', blob)
-        publishArticle(fd)
+        if (q && q != '') {
+          //更新文章
+          fd.append('id', q)
+          updateArticle(fd)
+        }
+        else publishArticle(fd)
+
       })
   })
 
@@ -68,6 +81,35 @@ $(function () {
       success: function (res) {
         if (res.status !== 0) return layui.layer.msg(res.message)
         layui.layer.msg('发布文章成功')
+        location.href = '/article/art_list.html'
+        window.parent.articleListClick()
+      }
+
+    })
+  }
+
+  //编辑文章,获取文章内容
+  function editArticle(id) {
+    $.ajax({
+      method: 'GET',
+      url: '/my/article/' + id,
+      success: function (res) {
+        layui.form.val('form-article', res.data[0])
+      }
+    })
+  }
+
+  //更新文章
+  function updateArticle(fd) {
+    $.ajax({
+      method: 'POST',
+      url: '/my/article/update',
+      data: fd,
+      contentType: false,
+      processData: false,
+      success: function (res) {
+        if (res.status !== 0) return layui.layer.msg(res.message)
+        layui.layer.msg('更新文章成功')
         location.href = '/article/art_list.html'
         window.parent.articleListClick()
       }

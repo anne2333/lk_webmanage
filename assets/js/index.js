@@ -13,6 +13,7 @@ $(function () {
   })
 })
 
+
 //获取用户基本信息
 function getUserInfo() {
   $.ajax({
@@ -42,4 +43,7 @@ function renderAvatar(user) {
 //点击事件
 function articleListClick() {
   $('#dl_article_list').click()
+}
+function articleAddClick() {
+  $('#dl_article_add').click()
 }
