@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>产品</title>
+  <link rel="stylesheet" href="../assets/lib/layui/css/layui.css">
+  <link rel="stylesheet" href="../assets/css/product/pdt_list.css">
+</head>
+
+<body>
+  <div class="layui-card">
+    <div class="layui-card-header">产品列表</div>
+    <div class="layui-card-body">
+      <!-- 筛选区域 -->
+      <form class="layui-form" id="form-search">
+        <div class="layui-form-item layui-inline">
+          <select name="sd" lay-filter="select_sd">
+            <option value="">所有分类</option>
+            <option value="医院产品">医院产品</option>
+            <option value="电商产品">电商产品</option>
+            <option value="OTC产品">OTC产品</option>
+            <option value="商用产品">商用产品</option>
+          </select>
+        </div>
+        <div id="form_item_xl" class="layui-form-item layui-inline hide">
+          <select id="select_xl" name="xl">
+
+          </select>
+
+        </div>
+        <div class="layui-form-item layui-inline">
+          <button class="layui-btn" lay-submit>筛选</button>
+        </div>
+      </form>
+
+      <!-- 列表区域 -->
+      <table class="layui-table">
+        <colgroup>
+          <col width="150">
+          <col width="180">
+          <col width="150">
+          <col width="150">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>产品名称</th>
+            <th>产品图片</th>
+            <th>发布时间</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+
+      <!-- 分页区域 -->
+      <div id="pageBox"></div>
+    </div>
+  </div>
+
+  <!-- 模板引擎 -->
+  <script type="text/html" id="tpl-table">
+    {{each data}}
+    <tr>
+      <td>{{$value.title}}</td>
+      <td>
+        <img src="{{$value.image}}">
+      </td>
+      <td>{{$value.pub_date|dateFormat}}</td>
+      <td>
+        <button type="button" data-title="{{$value.title}}" data-image="{{$value.image}}" class="layui-btn layui-btn layui-btn-xs btn-edit">预览</button>
+        <button type="button" data-id="{{$value.id}}" class="layui-btn layui-btn layui-btn-xs layui-btn-danger btn-delete">删除</button>
+      </td>
+    </tr>
+    {{/each}}
+  </script>
+
+  <script src="../assets/lib/jquery.js"></script>
+  <script src="../assets/lib/layui/layui.all.js"></script>
+  <script src="../assets/js/baseAPI.js"></script>
+  <script src="../assets/lib/template-web.js"></script>
+  <script src="../assets/js/product/pdt_list.js"></script>
+  <script>
+    layui.use(['form', 'layer', 'table', 'jquery'], function () {
+      var form = layui.form;
+      form.on('select(select_sd)', function (data) {
+        var value = data.value
+        var html = ''
+        switch (data.value) {
+          case '':
+            break;
+          case '医院产品':
+            html = `
+            <option value="">所有系列</option>
+            <option value="皮肤黏膜系列">皮肤黏膜系列</option>
+            <option value="手卫生系列">手卫生系列</option>
+            <option value="环境表面系列">环境表面系列</option>
+            <option value="器械清洗消毒系列">器械清洗消毒系列</option>
+            <option value="人体护理系列">人体护理系列</option>
+            <option value="检测系列">检测系列</option>
+            <option value="手卫生配套系列">手卫生配套系列</option>
+              `
+            break;
+          case '电商产品':
+            html = `
+            <option value="">所有系列</option>
+            <option value="手部消毒">手部消毒</option>
+            <option value="皮肤消毒">皮肤消毒</option>
+            <option value="物表消毒">物表消毒</option>
+            <option value="口腔护理">口腔护理</option>
+            <option value="居家个护">居家个护</option>
+              `
+            break;
+          case 'OTC产品':
+            html = `
+            <option value="">所有系列</option>
+            <option value="皮肤消毒">皮肤消毒</option>
+            <option value="手消毒">手消毒</option>
+            <option value="物表消毒">物表消毒</option>
+            <option value="个人护理">个人护理</option>
+            <option value="敷料产品">敷料产品</option>
+              `
+            break;
+          default:
+            html = `
+            <option value="">所有系列</option>
+            <option value="酒店及餐饮渠道">酒店及餐饮渠道</option>
+            <option value="学校渠道">学校渠道</option>
+            <option value="政企采购渠道">政企采购渠道</option>
+              `
+            break;
+        }
+        $("#select_xl").html(html)
+        form.render();
+        if (data.value) {
+          $('#form_item_xl').removeClass('hide')
+        }
+        else {
+          $('#form_item_xl').addClass('hide')
+        }
+
+      });
+    })
+  </script>
+</body>
+
+</html>

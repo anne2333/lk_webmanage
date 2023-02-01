@@ -29,7 +29,7 @@
             <select name="cate_name" lay-verify="required">
               <option value="">请选择文章类别</option>
               <option value="行业动态">行业动态</option>
-              <option value="新闻资讯">新闻资讯</option>
+              <option value="企业新闻">企业新闻</option>
               <option value="法律法规">法律法规</option>
             </select>
           </div>
@@ -49,13 +49,14 @@
           <!-- 选择封面区域 -->
           <div class="layui-input-block cover-box">
             <!-- 左侧裁剪区域 -->
-            <div class="cover-left">
-              <img id="image" src="/assets/images/article.jpg" alt="" />
+            <div id="coverleft" class="cover-left hide">
+              <!-- <img id="image" src="../assets/images/article.jpg" alt="" /> -->
+              <img id="image" />
             </div>
             <!-- 右侧预览区域和选择封面区域 -->
             <div class="cover-right">
               <!-- 预览的区域 -->
-              <div class="img-preview"></div>
+              <div id="imgpreview" class="img-preview hide"></div>
               <!-- 选择封面按钮 -->
               <button type="button" id="btn_cover_file" class="layui-btn layui-btn-danger">选择封面</button>
               <input type="file" id="cover_file" style="display: none;" accept="image/png,image/jpeg,image/gif">
@@ -80,6 +81,7 @@
   <script src="../assets/lib/tinymce/tinymce.min.js"></script>
   <script>
     // 初始化富文本编辑器
+    let list = []
     const images_upload_handler = (blobInfo, progress) => new Promise((resolve, reject) => {
       var fd = new FormData()
       fd.append('type', '新闻资讯')
@@ -93,6 +95,9 @@
         success: function (res) {
           if (res.status !== 0) reject(res.err)
           layui.layer.msg('上传图片成功')
+          var arr = res.message.split('/')
+          var item = arr[arr.length - 1]
+          list.push(item)
           resolve(res.message)
         }
       })
@@ -106,6 +111,25 @@
       // images_upload_url: 'http://127.0.0.1:8080/my/upload/image',
       images_upload_handler: images_upload_handler,
       height: 800,
+      width: 950,
+      style_formats: [
+        {
+          title: '首行缩进',
+          block: 'p',
+          styles: { 'text-indent': '2em' }
+        },
+        {
+          title: '行高',
+          items: [
+            { title: '1', styles: { 'line-height': '1' }, inline: 'span' },
+            { title: '1.5', styles: { 'line-height': '1.5' }, inline: 'span' },
+            { title: '2', styles: { 'line-height': '2' }, inline: 'span' },
+            { title: '2.5', styles: { 'line-height': '2.5' }, inline: 'span' },
+            { title: '3', styles: { 'line-height': '3' }, inline: 'span' }
+          ]
+        }
+      ],
+
     });
 
   </script>

@@ -1,0 +1,25 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.hide {
+  display: none;
+}
+
+
+td,
+th {
+  text-align: center !important;
+}
+
+.yl {
+  text-align: center;
+}
+
+.layui-card-header {
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+}

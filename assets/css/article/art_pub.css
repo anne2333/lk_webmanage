@@ -15,9 +15,13 @@ body {
 }
 
 /* 左侧裁剪区域的样式 */
+.hide {
+  display: none;
+}
+
 .cover-left {
-  width: 520px;
-  height: 680px;
+  width: 630px;
+  height: 390px;
   overflow: hidden;
   margin-right: 20px;
 }
@@ -31,8 +35,8 @@ body {
 
 /* 预览区域的样式 */
 .img-preview {
-  width: 260px;
-  height: 340px;
+  width: 420px;
+  height: 260px;
   background-color: #ccc;
   margin-bottom: 20px;
   overflow: hidden;

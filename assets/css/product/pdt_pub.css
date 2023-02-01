@@ -1,0 +1,35 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  padding: 15px;
+  background-color: #f2f3f5;
+}
+
+/* 封面容器的样式 */
+.cover-box {
+  display: flex;
+}
+
+.hide {
+  display: none;
+}
+
+.layui-btn-container {
+  display: flex;
+}
+
+.layui-upload-img {
+  width: 330px;
+  height: 400px;
+  object-fit: cover;
+}
+
+.layui-layer-content {
+  font-size: 16px;
+  line-height: 150px;
+  text-align: center;
+}

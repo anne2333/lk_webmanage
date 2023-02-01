@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge;img-src * 'https://*'">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发布文章</title>
+  <link rel="stylesheet" href="../assets/lib/layui/css/layui.css">
+  <link rel="stylesheet" href="../assets/css/product/pdt_pub.css">
+  <link rel="stylesheet" href="../assets/lib/cropper/cropper.css">
+</head>
+
+<body>
+  <div class="layui-card">
+    <div class="layui-card-header">新增产品</div>
+    <div class="layui-card-body">
+      <form class="layui-form" lay-filter="form-product">
+        <div class="layui-form-item">
+          <label class="layui-form-label">产品名称</label>
+          <div class="layui-input-block">
+            <input type="text" name="title" required lay-verify="required" placeholder="请输入产品名称" autocomplete="off"
+              class="layui-input">
+          </div>
+        </div>
+        <div class="layui-form-item">
+          <label class="layui-form-label">产品赛道</label>
+          <div class="layui-input-block">
+            <select name="sd" lay-verify="required" lay-filter="select_sd">
+              <option value="">请选择产品赛道</option>
+              <option value="医院产品">医院产品</option>
+              <option value="电商产品">电商产品</option>
+              <option value="OTC产品">OTC产品</option>
+              <option value="商用产品">商用产品</option>
+            </select>
+          </div>
+        </div>
+        <div id="form_item_xl" class="layui-form-item hide">
+          <label class="layui-form-label">产品系列</label>
+          <div class="layui-input-block">
+            <select id="select_xl" name="xl" lay-verify="required">
+
+            </select>
+          </div>
+        </div>
+
+        <div class="layui-form-item">
+          <label class="layui-form-label">产品图片</label>
+          <div id="container" class="layui-btn-container">
+            <button type="button" class="layui-btn layui-btn-normal" id="upload">选择图片</button>
+            <img class="layui-upload-img" id="preview">
+          </div>
+          <hr>
+        </div>
+        <div class="layui-form-item">
+          <div class="layui-input-block">
+            <button id="submit" class="layui-btn" lay-submit>确定</button>
+            <button id="reset" type="reset" class="layui-btn layui-btn-primary hide">重置</button>
+          </div>
+        </div>
+    </div>
+    </form>
+  </div>
+  </div>
+
+
+  <script src="../assets/lib/jquery.js"></script>
+  <script src="../assets/lib/layui/layui.all.js"></script>
+  <script src="../assets/lib/template-web.js"></script>
+  <script src="../assets/js/baseAPI.js"></script>
+  <script>
+    layui.use(['form', 'layer', 'table', 'jquery'], function () {
+      var form = layui.form;
+      form.on('select(select_sd)', function (data) {
+        var value = data.value
+        var html = ''
+        switch (data.value) {
+          case '':
+            break;
+          case '医院产品':
+            html = `
+            <option value="">请选择产品系列</option>
+            <option value="皮肤黏膜系列">皮肤黏膜系列</option>
+            <option value="手卫生系列">手卫生系列</option>
+            <option value="环境表面系列">环境表面系列</option>
+            <option value="器械清洗消毒系列">器械清洗消毒系列</option>
+            <option value="人体护理系列">人体护理系列</option>
+            <option value="检测系列">检测系列</option>
+            <option value="手卫生配套系列">手卫生配套系列</option>
+              `
+            break;
+          case '电商产品':
+            html = `
+            <option value="">请选择产品系列</option>
+            <option value="手部消毒">手部消毒</option>
+            <option value="皮肤消毒">皮肤消毒</option>
+            <option value="物表消毒">物表消毒</option>
+            <option value="口腔护理">口腔护理</option>
+            <option value="居家个护">居家个护</option>
+              `
+            break;
+          case 'OTC产品':
+            html = `
+            <option value="">请选择产品系列</option>
+            <option value="皮肤消毒">皮肤消毒</option>
+            <option value="手消毒">手消毒</option>
+            <option value="物表消毒">物表消毒</option>
+            <option value="个人护理">个人护理</option>
+            <option value="敷料产品">敷料产品</option>
+              `
+            break;
+          default:
+            html = `
+            <option value="">请选择产品系列</option>
+            <option value="酒店及餐饮渠道">酒店及餐饮渠道</option>
+            <option value="学校渠道">学校渠道</option>
+            <option value="政企采购渠道">政企采购渠道</option>
+              `
+            break;
+        }
+        $("#select_xl").html(html)
+        form.render();
+        if (data.value) {
+          $('#form_item_xl').removeClass('hide')
+        }
+        else {
+          $('#form_item_xl').addClass('hide')
+        }
+
+      });
+    })
+  </script>
+  <script>
+    var product;
+    layui.use(['upload', 'element', 'layer'], function () {
+
+      var $ = layui.jquery
+        , upload = layui.upload
+        , element = layui.element
+        , layer = layui.layer;
+      //选完文件后不自动上传
+      upload.render({
+        elem: '#upload'
+        , url: '/my/upload/products'
+        , accept: 'images'
+        , acceptMime: 'image/*'
+        , auto: false //选择文件后不自动上传
+        // , bindAction: '#submit' //指向一个按钮触发上传
+        , multiple: false
+        , choose: function (obj) {
+          //将每次选择的文件追加到文件队列
+
+          //预读本地文件，如果是多文件，则会遍历。(不支持ie8/9)
+          obj.preview(function (index, file, result) {
+            product = file
+            $('#preview').attr('src', result); //图片链接（base64）
+          });
+        }
+      });
+
+    })
+  </script>
+
+  <script src="../assets/js/product/pdt_pub.js"></script>
+
+</body>
+
+</html>

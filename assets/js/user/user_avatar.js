@@ -46,6 +46,7 @@ $(function () {
       success: function (res) {
         if (res.status !== 0) return layui.layer.msg('更新头像失败')
         layui.layer.msg('更新头像成功')
+        // location.href = '../home/dashboard.html'
         window.parent.getUserInfo()
       }
     })
